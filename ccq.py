@@ -108,7 +108,12 @@ class Ccq:
         regex = re.match(r"\((?P<ubv>[a-zA-Z0-9]+(,[a-zA-Z0-9]+)*)?\)\.\((?P<bv>[a-zA-Z0-9]+(,[a-zA-Z0-9]+)*)?\)\.\((?P<form>[a-zA-Z0-9]+\((?:[a-zA-Z0-9]+(?:,[a-zA-Z0-9]+)*)?\)(,[a-zA-Z0-9]+\((?:[a-zA-Z0-9]+(?:,[a-zA-Z0-9]+)*)?\))*)?\)", q)
 
         if not regex:
-            raise messagebox.showerror("Error", "Input does not fit required format")
+            if len(sys.argv) > 1:
+                print("Input does not fit required format")
+                exit()
+            else:
+                messagebox.showerror("Error", "Input does not fit required format")
+                raise
 
         if regex.group("ubv"):
             ubv = regex.group("ubv").split(",")
@@ -132,7 +137,12 @@ class Ccq:
         const = list({m for n in form for m in n[1]}-set(ubv+bv))
 
         if len(set(ubv)) != len(ubv) or len(set(bv)) != len(bv) or set(ubv)&set(bv) != set() or len(edges) != len({n.split(" ")[0] for n in edges}):
-            raise messagebox.showerror("Error", "Input does not fit required format")
+            if len(sys.argv) > 1:
+                print("Input does not fit required format")
+                exit()
+            else:
+                messagebox.showerror("Error", "Input does not fit required format")
+                raise
 
         tempfile = TemporaryFile(mode="w+")
 
